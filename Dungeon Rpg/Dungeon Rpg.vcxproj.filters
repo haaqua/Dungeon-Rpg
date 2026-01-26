@@ -21,9 +21,15 @@
     <ClCompile Include="Item.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Monster.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="item.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

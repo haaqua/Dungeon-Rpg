@@ -4,16 +4,24 @@
 #include<stdlib.h>
 #include<conio.h>
 #include "item.h"
+#include "Monster.h"
 
 // 스탯
 typedef struct {
 	int hp;
+	int level;
 	int str;
-	int def;
+	int dex;
 	int wis;
 	int luk;
 }Player_Stats;
 
+typedef enum {
+	STAT_STR,
+	STAT_DEX,
+	STAT_WIS,
+	STAT_LUK
+} StatType;
 // 인벤토리
 #define Inventory_Size 20
 typedef struct {
@@ -31,7 +39,15 @@ typedef struct {
 	Player_Stats stat;
 	Inventory inv;
 }Using_Player;
-
+int GetPlayerStat(Using_Player* p, StatType stat) {
+	switch (stat) {
+	case STAT_STR: return p->stat.str;
+	case STAT_DEX: return p->stat.dex;
+	case STAT_WIS: return p->stat.wis;
+	case STAT_LUK: return p->stat.luk;
+	default: return 0;
+	}
+}
 
 int screenIndex;
 HANDLE screen[4];
@@ -87,6 +103,7 @@ wchar_t map[MAZEHEIGHT][MAZEWIDTH];
 #define Wall   L'■'
 #define Empty  L'□'
 #define Chest  L'★'
+#define Market L'◎'
 #define Player L'@'
 #define Exit   L'▽'
 int plX = 1;
@@ -139,6 +156,16 @@ void ItemPlace(int percent) {
 		}
 	}
 }
+void ItemMarket() {
+	while (1) {
+		int x = rand() % MAZEWIDTH;
+		int y = rand() % MAZEHEIGHT;
+		if (map[y][x] == Empty && !(x == plX && y == plY)) {
+			map[y][x] = Market;
+			break;
+		}
+	}
+}
 void ExitPlace() {
 	
 	while (1) {
@@ -160,6 +187,7 @@ void MapFunction() {
 
 	MakeMap();
 	ItemPlace(5);
+	ItemMarket();
 	ExitPlace();
 	RenderMap();
 	SetConsoleActiveScreenBuffer(screen[Field]);
@@ -215,11 +243,109 @@ void PlayerMove(int nx, int ny) {
 
 // 플레이어 생성 함수
 void PlayerCreat(Using_Player* p) {
-	p->stat.hp = 10;
-	p->stat.str = 5;
-	p->stat.def = 5;
-	p->stat.wis = 5;
+	p->stat.hp = 50;
+	p->stat.str = 10;
+	p->stat.dex = 10;
+	p->stat.wis = 10;
 	p->stat.luk = 5;
+}
+
+// 전투 함수
+int calculate(int atk, int def) {
+	int dmg = atk - def;
+	if (dmg < 1) {
+		dmg = 1;
+	}
+	return dmg;
+}
+int RollPercent(int need, int percent, Using_Player* p, StatType stat) {
+	int statValue = GetPlayerStat(p, stat);
+	int roll = rand() % 100;
+
+	return roll < (percent + statValue - need);
+}
+void MonsterUseSkill(Monster* m, Using_Player * P) {
+	int idx = rand() % m->skill_count;
+	m->skill[idx](m);
+}
+void BattleUI(Monster* m, Using_Player* p, int cursor) {
+	HANDLE hBattle = screen[Battle];
+	system("cls");
+
+	// 몬스터
+	DrawCharToBufferW(hBattle, 10, 2, m->name);
+
+	wchar_t hpBuf[50];
+	swprintf(hpBuf, 50, L"HP : %d", m->hp);
+	DrawCharToBufferW(hBattle, 7, 5, hpBuf);
+
+	// 플레이어
+	swprintf(hpBuf, 50, L"플레이어 HP : %d", p->stat.hp);
+	DrawCharToBufferW(hBattle, 1, 12, hpBuf);
+
+	// 메뉴
+	const wchar_t* menu[5] = {
+		L"공격",
+		L"아이템",
+		L"스킬",
+		L"상태",
+		L"도망"
+	};
+	for (int i = 0; i < 5; i++) {
+		if (i == cursor) {
+			DrawCharToBufferW(hBattle, 5 + i * 6, 15, L">");
+		}
+		DrawCharToBufferW(hBattle, 6 + i * 6, 15, menu[i]);
+	}
+
+}
+int BattleInput(int* cursor) {
+	if (!_kbhit())return -1;
+
+	char key = _getch();
+	if (key == -32 || key == 0)
+		key = _getch();
+
+	switch (key) {
+	case 75:
+		if (*cursor > 0)(*cursor)--;
+		break;
+	case 77:
+		if (*cursor < 4)(*cursor)--;
+		break;
+	case 13:
+		return *cursor;
+	}
+	return - 1;
+}
+void BattleFunction(Using_Player* p, Monster* m) {
+	ChangeMode(Battle);
+	SetConsoleActiveScreenBuffer(screen[Battle]);
+
+	int cursor = 0;
+
+	while (1) {
+		BattleUI(m, p, cursor);
+		int select = BattleInput(&cursor);
+		if (select == -1) {
+			sleep(50);
+			continue;
+		}
+		// 플레이어 행동
+		if (select == 0) {
+			DrawCharToBufferW(screen[Battle], 1, 18, L"공격");
+			if (RollPercent(m->lv * 10, 50, p, STAT_STR)) {
+				int dmg = calculate(p->stat.str, m->def);
+				m->hp -= dmg;
+			}
+
+
+		}
+		else if (select == 4) {
+			DrawCharToBufferW(screen[Battle], 1, 18, L"도망친다");
+
+		}
+	}
 }
 
 int main() {

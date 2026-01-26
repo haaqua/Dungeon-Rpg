@@ -19,8 +19,9 @@ typedef enum {
 typedef enum {
     STAT_HP,
     STAT_STR,
-    STAT_DEF,
+    STAT_DEX,
     STAT_WIS,
+    STAT_LUK
 } StatType;
 
 #define ITEM_NAME_LEN 32
@@ -31,17 +32,37 @@ typedef struct {
     EquipSlot slot;
     StatType stat;
     int value;
+    int cost;
 } Item;
 
 /* 아이템 생성 함수들 */
 // 무기
 Item Sword(void);
 Item Axe();
+Item Saint_Saver();
+
 Item Dagger();
 Item CrossBow();
+Item Death_Reaper();
+
 Item Wand();
+Item Artifact();
+Item Gambanteinn();
+
+// 방어구
+Item Armor();
+Item Theif_Robe();
+Item Magic_Robe();
+
+// 장신구
+Item Ring_Str();
+Item Ring_Dex();
+Item Ring_Wis();
 
 // 그외
-Item MakePotion(void);
-
+Item HpPotion(void);
+Item StrPotion();
+Item DexPotion();
+Item WisPotion();
+Item LukPotion();
 #endif
