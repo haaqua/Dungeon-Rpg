@@ -1,3 +1,2 @@
 ﻿  main.c
-C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\main.c(168,8): warning C4244: '함수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Dungeon Rpg.vcxproj -> C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\x64\Debug\Dungeon Rpg.exe
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\main.c(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Dungeon Rpg\x64\Debug\vc143.idb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.

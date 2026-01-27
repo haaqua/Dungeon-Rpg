@@ -22,7 +22,7 @@ typedef enum {
     STAT_DEX,
     STAT_WIS,
     STAT_LUK
-} StatType;
+} ITEMStat;
 
 #define ITEM_NAME_LEN 32
 
@@ -30,7 +30,7 @@ typedef struct {
     wchar_t name[ITEM_NAME_LEN];
     ItemCategory category;
     EquipSlot slot;
-    StatType stat;
+    ITEMStat stat;
     int value;
     int cost;
 } Item;

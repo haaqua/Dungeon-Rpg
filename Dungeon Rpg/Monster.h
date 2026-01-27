@@ -9,6 +9,8 @@ typedef enum {
 	Boss
 }mon_type;
 
+struct Monster;
+
 typedef void (*Monster_Skill)(struct Monster* self);
 
 typedef struct {

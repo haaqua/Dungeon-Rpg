@@ -1,59 +1,75 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include"Monster.h"
 #include<wchar.h>
 #include<stdio.h>
 
+void SlimeSkill(Monster* self);
+void GoblinSkill(Monster* self);
+void ImpSkill(Monster* self);
+
+void OrcSmash(Monster* self);
+void OrcRush(Monster* self);
+
+void VampireBloodAttack(Monster* self);
+void VampireBlooddrain(Monster* self);
+
+void DragonBreath(Monster* self);
+void DragonArmor(Monster* self);
+void DragonMagic(Monster* self);
+
+
 Monster Slime(int Level) {
 	Monster m;
-	wcspy(m.name, L"슬라임");
+	wcscpy(m.name, L"슬라임");
 	m.type = common;
 	m.lv = Level;
 	m.hp = 7 + Level;
 	m.atk = 1 + Level;
 	m.def = 0 + Level;
 
-	m.skill_count = 0;
+	m.skill_count = 1;
 	m.skill[0] = SlimeSkill;
 
 	return m;
 }
 Monster Goblin(int Level) {
 	Monster m;
-	wcspy(m.name, L"고블린");
+	wcscpy(m.name, L"고블린");
 	m.type = common;
 	m.lv = Level;
 	m.hp = 5 + Level;
 	m.atk = 5 + Level;
 	m.def = 3 + Level;
 
-	m.skill_count = 0;
+	m.skill_count = 1;
 	m.skill[0] = GoblinSkill;
 
 	return m;
 }
 Monster Imp(int Level) {
 	Monster m;
-	wcspy(m.name, L"임프");
+	wcscpy(m.name, L"임프");
 	m.type = common;
 	m.lv = Level;
 	m.hp = 3 + Level;
 	m.atk = 5 + Level;
 	m.def = 1 + Level;
 
-	m.skill_count = 0;
+	m.skill_count = 1;
 	m.skill[0] = ImpSkill;
 
 	return m;
 }
 Monster Orc(int Level) {
 	Monster m;
-	wcspy(m.name, L"오크");
+	wcscpy(m.name, L"오크");
 	m.type = rare;
 	m.lv = Level;
 	m.hp = 10 + Level*2;
 	m.atk = 5 + Level*2;
 	m.def = 5 + Level*2;
 
-	m.skill_count = 0;
+	m.skill_count = 2;
 	m.skill[0] = OrcSmash;
 	m.skill[1] = OrcRush;
 
@@ -61,14 +77,14 @@ Monster Orc(int Level) {
 }
 Monster Vampire(int Level) {
 	Monster m;
-	wcspy(m.name, L"뱀파이어");
+	wcscpy(m.name, L"뱀파이어");
 	m.type = rare;
 	m.lv = Level;
 	m.hp = 5 * Level;
 	m.atk = 3 * Level;
 	m.def = 3 * Level;
 
-	m.skill_count = 0;
+	m.skill_count = 2;
 	m.skill[0] = VampireBloodAttack;
 	m.skill[1] = VampireBlooddrain;
 
@@ -76,16 +92,17 @@ Monster Vampire(int Level) {
 }
 Monster Dragon(int Level) {
 	Monster m;
-	wcspy(m.name, L"드래곤");
+	wcscpy(m.name, L"드래곤");
 	m.type = Boss;
 	m.lv = Level;
 	m.hp = 10 * Level * 2;
 	m.atk = 5 * Level * 2;
 	m.def = 5 * Level * 2;
 
-	m.skill_count = 0;
+	m.skill_count = 3;
 	m.skill[0] = DragonBreath;
 	m.skill[1] = DragonArmor;
+	m.skill[2] = DragonMagic;
 
 	return m;
 }
@@ -103,11 +120,13 @@ void GoblinSkill(Monster* self) {
 }
 void ImpSkill(Monster* self) {
 	int bonus = self->atk + self->lv;
+	self->atk += bonus;
 	wprintf(L"%ls의 기습 공격! 추가 피해 %d\n", self->name, bonus);
 }
 
 void OrcSmash(Monster* self) {
 	int bonus = self->atk + self->lv * 2;
+	self->atk += bonus;
 	wprintf(L"%ls의 강타! 추가 피해 %d\n", self->name, bonus);
 }
 void OrcRush(Monster* self) {
@@ -131,9 +150,9 @@ void DragonBreath(Monster* self) {
 }
 void DragonArmor(Monster* self) {
 	int bonus = self->def * self->lv;
-	wprintf(L"&ls이 자신의 비늘로 몸을 감싼다!\n", self->name, bonus);
+	wprintf(L"%ls이 자신의 비늘로 몸을 감싼다!\n", self->name, bonus);
 }
 void DragonMagic(Monster* self) {
 	int bonus = self->hp * self->lv;
-	wprintf(L"&ls이 용의 마법으로 자신의 몸을 회복한다!\n", self->name, bonus);
+	wprintf(L"%ls이 용의 마법으로 자신의 몸을 회복한다!\n", self->name, bonus);
 }

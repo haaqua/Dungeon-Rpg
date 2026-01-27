@@ -17,11 +17,12 @@ typedef struct {
 }Player_Stats;
 
 typedef enum {
-	STAT_STR,
-	STAT_DEX,
-	STAT_WIS,
-	STAT_LUK
-} StatType;
+	PSTAT_STR,
+	PSTAT_DEX,
+	PSTAT_WIS,
+	PSTAT_LUK
+} PlayerStatType;
+
 // 인벤토리
 #define Inventory_Size 20
 typedef struct {
@@ -39,15 +40,16 @@ typedef struct {
 	Player_Stats stat;
 	Inventory inv;
 }Using_Player;
-int GetPlayerStat(Using_Player* p, StatType stat) {
+int GetPlayerStat(Using_Player* p, PlayerStatType stat) {
 	switch (stat) {
-	case STAT_STR: return p->stat.str;
-	case STAT_DEX: return p->stat.dex;
-	case STAT_WIS: return p->stat.wis;
-	case STAT_LUK: return p->stat.luk;
+	case PSTAT_STR: return p->stat.str;
+	case PSTAT_DEX: return p->stat.dex;
+	case PSTAT_WIS: return p->stat.wis;
+	case PSTAT_LUK: return p->stat.luk;
 	default: return 0;
 	}
 }
+Using_Player player;
 
 int screenIndex;
 HANDLE screen[4];
@@ -109,6 +111,8 @@ wchar_t map[MAZEHEIGHT][MAZEWIDTH];
 int plX = 1;
 int plY = 1;
 
+int MazeLv = 1;
+
 void MakeMap(){
 	
 	for (int y = 0; y < MAZEHEIGHT; y++) {
@@ -167,11 +171,11 @@ void ItemMarket() {
 	}
 }
 void ExitPlace() {
-	
+
 	while (1) {
 		int x = rand() % MAZEWIDTH;
 		int y = rand() % MAZEHEIGHT;
-		if (map[y][x] == Empty &&!(x == plX && y == plY)) {
+		if (map[y][x] == Empty && !(x == plX && y == plY)) {
 			map[y][x] = Exit;
 			break;
 		}
@@ -193,12 +197,14 @@ void MapFunction() {
 	SetConsoleActiveScreenBuffer(screen[Field]);
 }
 
+void BattleFunction(Using_Player* p, Monster* m);
 // 플레이어 이동 함수
+Monster MonsterEncounter(Using_Player* p, int isBoss);
 void PlayerMove(int nx, int ny);
 void MoveInput() {
-	if (NowMode != Field) 
+	if (NowMode != Field)
 		return;
-	if (!_kbhit()) 
+	if (!_kbhit())
 		return;
 	char key = _getch();
 	if (key == -32 || key == 0)
@@ -230,6 +236,10 @@ void PlayerMove(int nx, int ny) {
 		map[ny][nx] = Empty;
 	}
 	if (map[ny][nx] == Exit) {
+		Monster boss = MonsterEncounter(&player, 1);
+		BattleFunction(&player, &boss);
+
+		MazeLv++;
 		MapFunction();
 		nx = 1;
 		ny = 1;
@@ -239,6 +249,12 @@ void PlayerMove(int nx, int ny) {
 	plY = ny;
 
 	DrawCharToBufferW(hfield, plX, plY, Player);
+
+	if(BattleEncounter(5, &player, PSTAT_LUK)){
+		Monster m = MonsterEncounter(&player, 0);
+		BattleFunction(&player, &m);
+		ChangeMode(Battle);
+	}
 }
 
 // 플레이어 생성 함수
@@ -251,6 +267,7 @@ void PlayerCreat(Using_Player* p) {
 }
 
 // 전투 함수
+
 int calculate(int atk, int def) {
 	int dmg = atk - def;
 	if (dmg < 1) {
@@ -258,7 +275,7 @@ int calculate(int atk, int def) {
 	}
 	return dmg;
 }
-int RollPercent(int need, int percent, Using_Player* p, StatType stat) {
+int RollPercent(int need, int percent, Using_Player* p, PlayerStatType stat) {
 	int statValue = GetPlayerStat(p, stat);
 	int roll = rand() % 100;
 
@@ -328,29 +345,125 @@ void BattleFunction(Using_Player* p, Monster* m) {
 		BattleUI(m, p, cursor);
 		int select = BattleInput(&cursor);
 		if (select == -1) {
-			sleep(50);
+			Sleep(50);
 			continue;
 		}
 		// 플레이어 행동
+		// 공격
 		if (select == 0) {
 			DrawCharToBufferW(screen[Battle], 1, 18, L"공격");
-			if (RollPercent(m->lv * 10, 50, p, STAT_STR)) {
+			if (RollPercent(m->lv * 10, 50, p, PSTAT_STR)) {
+				DrawCharToBufferW(screen[Battle], 1, 18, L"공격이 성공했습니다.");
 				int dmg = calculate(p->stat.str, m->def);
 				m->hp -= dmg;
 			}
-
+			else {
+				DrawCharToBufferW(screen[Battle], 1, 18, L"공격이 빗나갔습니다.");
+			}
+		}
+		// 아이템
+		else if (select == 1) {
 
 		}
+		// 스킬
+		else if (select == 2) {
+
+		}
+		// 상태
+		else if (select == 3) {
+
+		}
+		// 도망
 		else if (select == 4) {
 			DrawCharToBufferW(screen[Battle], 1, 18, L"도망친다");
-
+			if (RollPercent(m->lv * 10, 50, p, PSTAT_DEX)) {
+				DrawCharToBufferW(screen[Battle], 1, 18, L"당신은 도망쳤다.");
+				break;
+			}
+			else {
+				DrawCharToBufferW(screen[Battle], 1, 18, L"당신은 도망칠 수 없었다.");
+			}
 		}
+
+		if (m->hp <= 0) {
+			DrawCharToBufferW(screen[Battle], 1, 18, L"몬스터를 처치했다.");
+			Sleep(800);
+			break;
+		}
+
+
+		/*몬스터의 턴*/
+		int mdmg = calculate(m->atk, p->stat.dex);
+		p->stat.hp -= mdmg;
+
+		if (p->stat.hp <= 0) {
+			DrawCharToBufferW(screen[Battle], 1, 18, L"당신은 쓰러졌다...");
+			Sleep(1000);
+			break;
+		}
+	}
+	ChangeMode(Field);
+	SetConsoleActiveScreenBuffer(screen[Field]);
+}
+Monster MonsterEncounter(Using_Player* p, int isBoss);
+
+int BattleEncounter(int base, Using_Player* p, PlayerStatType stat) {
+	int statvalue = GetPlayerStat(p, stat);
+
+	int chance = base - statvalue;
+	if (chance < 1)chance = 1;
+
+	return (rand() % 100) < chance;
+}
+mon_type MonsterGrade(Using_Player* p) {
+	int luk = p->stat.luk;
+	int roll = rand() % 100;
+
+	int commonchance = 50 + luk;
+	if (commonchance > 95) commonchance = 95;
+
+	if (roll < commonchance) {
+		return common;
+	}
+	else {
+		return rare;
+	}
+}
+Monster(*commontable[])(int) = {
+	Slime,
+	Goblin,
+	Imp
+};
+Monster(*raretable[])(int) = {
+	Orc,
+	Vampire
+};
+Monster MonsterEncounter(Using_Player* p, int isBoss) {
+	mon_type type = MonsterGrade(p);
+	int level = MazeLv;
+
+	if (isBoss) {
+		return Dragon(level);
+	}
+
+
+	if (type == common) {
+		int count = sizeof(commontable) / sizeof(commontable[0]);
+		int idx = rand() % count;
+		return commontable[idx](level);
+	}
+	else {
+		int count = sizeof(raretable) / sizeof(raretable[0]);
+		int idx = rand() % count;
+		return raretable[idx](level);
 	}
 }
 
 int main() {
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
+
+	PlayerCreat(&player);
 
 	MapFunction();
 
