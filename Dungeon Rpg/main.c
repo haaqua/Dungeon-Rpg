@@ -89,6 +89,46 @@ void DrawCharToBufferW(HANDLE hBuffer, int x, int y, wchar_t ch)
 		&written
 	);
 }
+void DrawStringW(HANDLE hbuffer, int x, int y, const wchar_t* str) {
+
+	if (hbuffer == NULL || hbuffer == INVALID_HANDLE_VALUE)
+		return;
+
+	if (str == NULL)
+		return;
+
+	DWORD written;
+	COORD pos = { x * 2, y };
+	WriteConsoleOutputCharacterW( 
+		hbuffer,
+		str,
+		wcslen(str),
+		pos,
+		&written
+	);
+}
+void ClearBuffer(HANDLE hBuffer) {
+	DWORD written;
+	COORD pos = { 0, 0 };
+	FillConsoleOutputCharacterW(
+		hBuffer,
+		L' ',
+		80 * 25,
+		pos,
+		&written
+	);
+}
+void ClearLine(HANDLE hBuffer, int y) {
+	DWORD written;
+	COORD pos = { 0, y };
+	FillConsoleOutputCharacterW(
+		hBuffer,
+		L' ',
+		80,   
+		pos,
+		&written
+	);
+}
 
 void ChangeMode(enum Mode mode) {
 	NowMode = mode;
@@ -183,9 +223,6 @@ void ExitPlace() {
 }
 
 void MapFunction() {
-	Initialize();
-	srand(time(NULL));
-
 	plX = 1;
 	plY = 1;
 
@@ -250,10 +287,9 @@ void PlayerMove(int nx, int ny) {
 
 	DrawCharToBufferW(hfield, plX, plY, Player);
 
-	if(BattleEncounter(5, &player, PSTAT_LUK)){
+	if(BattleEncounter(10, &player, PSTAT_LUK)){
 		Monster m = MonsterEncounter(&player, 0);
 		BattleFunction(&player, &m);
-		ChangeMode(Battle);
 	}
 }
 
@@ -281,24 +317,20 @@ int RollPercent(int need, int percent, Using_Player* p, PlayerStatType stat) {
 
 	return roll < (percent + statValue - need);
 }
-void MonsterUseSkill(Monster* m, Using_Player * P) {
-	int idx = rand() % m->skill_count;
-	m->skill[idx](m);
-}
 void BattleUI(Monster* m, Using_Player* p, int cursor) {
 	HANDLE hBattle = screen[Battle];
-	system("cls");
+	ClearBuffer(hBattle);
 
 	// 몬스터
-	DrawCharToBufferW(hBattle, 10, 2, m->name);
+	DrawStringW(hBattle, 10, 2, m->name);
 
 	wchar_t hpBuf[50];
 	swprintf(hpBuf, 50, L"HP : %d", m->hp);
-	DrawCharToBufferW(hBattle, 7, 5, hpBuf);
+	DrawStringW(hBattle, 7, 5, hpBuf);
 
 	// 플레이어
 	swprintf(hpBuf, 50, L"플레이어 HP : %d", p->stat.hp);
-	DrawCharToBufferW(hBattle, 1, 12, hpBuf);
+	DrawStringW(hBattle, 1, 12, hpBuf);
 
 	// 메뉴
 	const wchar_t* menu[5] = {
@@ -310,9 +342,9 @@ void BattleUI(Monster* m, Using_Player* p, int cursor) {
 	};
 	for (int i = 0; i < 5; i++) {
 		if (i == cursor) {
-			DrawCharToBufferW(hBattle, 5 + i * 6, 15, L">");
+			DrawStringW(hBattle, 5 + i * 6, 15, L">");
 		}
-		DrawCharToBufferW(hBattle, 6 + i * 6, 15, menu[i]);
+		DrawStringW(hBattle, 6 + i * 6, 15, menu[i]);
 	}
 
 }
@@ -328,7 +360,7 @@ int BattleInput(int* cursor) {
 		if (*cursor > 0)(*cursor)--;
 		break;
 	case 77:
-		if (*cursor < 4)(*cursor)--;
+		if (*cursor < 4)(*cursor)++;
 		break;
 	case 13:
 		return *cursor;
@@ -342,6 +374,7 @@ void BattleFunction(Using_Player* p, Monster* m) {
 	int cursor = 0;
 
 	while (1) {
+
 		BattleUI(m, p, cursor);
 		int select = BattleInput(&cursor);
 		if (select == -1) {
@@ -350,15 +383,18 @@ void BattleFunction(Using_Player* p, Monster* m) {
 		}
 		// 플레이어 행동
 		// 공격
+		ClearLine(screen[Battle], 17);
+		ClearLine(screen[Battle], 18);
+		ClearLine(screen[Battle], 19);
 		if (select == 0) {
-			DrawCharToBufferW(screen[Battle], 1, 18, L"공격");
+			DrawStringW(screen[Battle], 1, 17, L"공격");
 			if (RollPercent(m->lv * 10, 50, p, PSTAT_STR)) {
-				DrawCharToBufferW(screen[Battle], 1, 18, L"공격이 성공했습니다.");
+				DrawStringW(screen[Battle], 1, 18, L"당신의 공격이 성공했습니다.");
 				int dmg = calculate(p->stat.str, m->def);
 				m->hp -= dmg;
 			}
 			else {
-				DrawCharToBufferW(screen[Battle], 1, 18, L"공격이 빗나갔습니다.");
+				DrawStringW(screen[Battle], 1, 18, L"당신의 공격이 빗나갔습니다.");
 			}
 		}
 		// 아이템
@@ -375,29 +411,50 @@ void BattleFunction(Using_Player* p, Monster* m) {
 		}
 		// 도망
 		else if (select == 4) {
-			DrawCharToBufferW(screen[Battle], 1, 18, L"도망친다");
+			DrawStringW(screen[Battle], 1, 17, L"도망친다");
 			if (RollPercent(m->lv * 10, 50, p, PSTAT_DEX)) {
-				DrawCharToBufferW(screen[Battle], 1, 18, L"당신은 도망쳤다.");
+				DrawStringW(screen[Battle], 1, 18, L"당신은 도망쳤다.");
 				break;
 			}
 			else {
-				DrawCharToBufferW(screen[Battle], 1, 18, L"당신은 도망칠 수 없었다.");
+				DrawStringW(screen[Battle], 1, 18, L"당신은 도망칠 수 없었다.");
 			}
 		}
+		Sleep(700);
 
 		if (m->hp <= 0) {
-			DrawCharToBufferW(screen[Battle], 1, 18, L"몬스터를 처치했다.");
+			DrawStringW(screen[Battle], 1, 19, L"몬스터를 처치했다.");
 			Sleep(800);
 			break;
 		}
 
-
 		/*몬스터의 턴*/
-		int mdmg = calculate(m->atk, p->stat.dex);
-		p->stat.hp -= mdmg;
+		ClearLine(screen[Battle], 17);
+		ClearLine(screen[Battle], 18);
+
+			int AorS = rand() % 2;
+			if (AorS == 0) {
+				DrawStringW(screen[Battle], 1, 17, L"몬스터가 공격해온다!");
+				int avoid = rand() % p->stat.dex;
+				if (m->atk < avoid) {
+					DrawStringW(screen[Battle], 1, 18, L"당신은 회피했다!");
+				}
+				else {
+					DrawStringW(screen[Battle], 1, 18, L"공격이 명중했다!");
+					p->stat.hp -= m->atk;
+				}
+			}
+			else {
+				int idx = rand() % m->skill_count;
+				const wchar_t* msg = m->skill[idx](m);
+				m->skill[idx](m);
+				DrawStringW(screen[Battle], 1, 18, L"몬스터가 스킬을 사용했다!");
+				DrawStringW(screen[Battle], 1, 18, msg);
+			}
+			Sleep(700);
 
 		if (p->stat.hp <= 0) {
-			DrawCharToBufferW(screen[Battle], 1, 18, L"당신은 쓰러졌다...");
+			DrawStringW(screen[Battle], 1, 17, L"당신은 쓰러졌다...");
 			Sleep(1000);
 			break;
 		}
@@ -463,14 +520,20 @@ int main() {
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
 
-	PlayerCreat(&player);
+	Initialize();
+	srand(time(NULL));
 
+	PlayerCreat(&player);
 	MapFunction();
 
 	while (1) {
 		MoveInput();
 		Sleep(30);
+		if (player.stat.hp <= 0) {
+			break;
+		}
 	}
+	printf("GAME OVER");
 
 	return 0;
 }

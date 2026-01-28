@@ -180,7 +180,7 @@ Item StrPotion() {
 	item.category = ITEM_CONSUME;
 	item.slot = SLOT_NONE;
 	item.stat = STAT_STR;
-	item.value = 5;
+	item.value = 1;
 	item.cost = 20;
 	return item;
 }
@@ -190,7 +190,7 @@ Item DexPotion() {
 	item.category = ITEM_CONSUME;
 	item.slot = SLOT_NONE;
 	item.stat = STAT_DEX;
-	item.value = 5;
+	item.value = 1;
 	item.cost = 20;
 	return item;
 }
@@ -200,7 +200,7 @@ Item WisPotion() {
 	item.category = ITEM_CONSUME;
 	item.slot = SLOT_NONE;
 	item.stat = STAT_WIS;
-	item.value = 5;
+	item.value = 1;
 	item.cost = 20;
 	return item;
 }
@@ -210,7 +210,7 @@ Item LukPotion() {
 	item.category = ITEM_CONSUME;
 	item.slot = SLOT_NONE;
 	item.stat = STAT_LUK;
-	item.value = 5;
+	item.value = 1;
 	item.cost = 30;
 	return item;
 }

@@ -3,19 +3,19 @@
 #include<wchar.h>
 #include<stdio.h>
 
-void SlimeSkill(Monster* self);
-void GoblinSkill(Monster* self);
-void ImpSkill(Monster* self);
+const wchar_t* SlimeSkill(Monster* self);
+const wchar_t* GoblinSkill(Monster* self);
+const wchar_t* ImpSkill(Monster* self);
 
-void OrcSmash(Monster* self);
-void OrcRush(Monster* self);
+const wchar_t* OrcSmash(Monster* self);
+const wchar_t* OrcRush(Monster* self);
 
-void VampireBloodAttack(Monster* self);
-void VampireBlooddrain(Monster* self);
+const wchar_t* VampireBloodAttack(Monster* self);
+const wchar_t* VampireBlooddrain(Monster* self);
 
-void DragonBreath(Monster* self);
-void DragonArmor(Monster* self);
-void DragonMagic(Monster* self);
+const wchar_t* DragonBreath(Monster* self);
+const wchar_t* DragonArmor(Monster* self);
+const wchar_t* DragonMagic(Monster* self);
 
 
 Monster Slime(int Level) {
@@ -107,52 +107,42 @@ Monster Dragon(int Level) {
 	return m;
 }
 
-void SlimeSkill(Monster* self) {
-	int heal = self->lv;
-	self->hp += heal;
-	wprintf(L"%ls이 몸을 분열하여 체력을 %d 회복했다!\n", self->name, heal);
-}
-void GoblinSkill(Monster* self) {
-	int swap = self->atk;
-	self->atk = self->def;
-	self->def = swap;
-	wprintf(L"%ls이 장비를 바꿔쓴다!\n", self->name);
-}
-void ImpSkill(Monster* self) {
-	int bonus = self->atk + self->lv;
-	self->atk += bonus;
-	wprintf(L"%ls의 기습 공격! 추가 피해 %d\n", self->name, bonus);
+const wchar_t* SlimeSkill(Monster* self) {
+	return L"슬라임이 몸을 분열하여 체력을 회복했다!"; /// 체력 회복
 }
 
-void OrcSmash(Monster* self) {
-	int bonus = self->atk + self->lv * 2;
-	self->atk += bonus;
-	wprintf(L"%ls의 강타! 추가 피해 %d\n", self->name, bonus);
-}
-void OrcRush(Monster* self) {
-	int bonus = self->def + self->lv * 2;
-	wprintf(L"%ls가 방패를 들고 돌진! 추가 피해 %d\n", self->name, bonus);
-}
-void VampireBlooddrain(Monster* self) {
-	int drain = self->atk / 2;
-	self->hp += drain;
-	wprintf(L"%ls가 흡혈했다! HP +%d\n", self->name, drain);
-}	 
-void VampireBloodAttack(Monster* self) {
-	int attack = self->hp / 2;
-	self->hp -= attack;
-	wprintf(L"%ls가 피로 공격했다! 추가 피해 %d\n", self->name, attack);
+const wchar_t* GoblinSkill(Monster* self) {
+	return L"고블린이 장비를 바꿔 들었다!공격력과 방어력이 바뀐다 !"; // 공격력, 방어력 바꾸기
 }
 
-void DragonBreath(Monster* self) {
-	int bonus = self->atk * self->lv;
-	wprintf(L"%ls의 브래스! 추가 피해 %d\n", self->name, bonus);
+const wchar_t* ImpSkill(Monster* self) {
+	return L"임프의 기습 공격!"; // 공격력 * 2
 }
-void DragonArmor(Monster* self) {
-	int bonus = self->def * self->lv;
-	wprintf(L"%ls이 자신의 비늘로 몸을 감싼다!\n", self->name, bonus);
+
+const wchar_t* OrcSmash(Monster* self) {
+	return L"오크의 강타!"; // 공격력 + 레밸*2
 }
-void DragonMagic(Monster* self) {
-	int bonus = self->hp * self->lv;
-	wprintf(L"%ls이 용의 마법으로 자신의 몸을 회복한다!\n", self->name, bonus);
+
+const wchar_t* OrcRush(Monster* self) {
+	return L"오크가 방패를 들고 돌진했다!"; // 방어력 만큼의 데미지
+}
+
+const wchar_t* VampireBlooddrain(Monster* self) {
+	return L"뱀파이어가 흡혈하여 체력을 회복했다!"; // 상대에게 데미지, 준 데미지만큼 회복
+}
+
+const wchar_t* VampireBloodAttack(Monster* self) {
+	return L"뱀파이어가 자신의 피로 공격했다!";// hp 줄이고 줄인 만큼 상대에게 데미지를 줌
+}
+
+const wchar_t* DragonBreath(Monster* self) {
+	return L"드래곤이 강력한 브레스를 뿜었다!"; // 데미지 * Lv * 2
+}
+
+const wchar_t* DragonArmor(Monster* self) {
+	return L"드래곤이 비늘로 몸을 감싸 방어력을 높였다!"; // 방어력 * Lv * 2
+}
+
+const wchar_t* DragonMagic(Monster* self) {
+	return L"드래곤이 용의 마법으로 체력을 회복했다!"; // hp += Lv
 }

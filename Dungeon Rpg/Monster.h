@@ -11,7 +11,7 @@ typedef enum {
 
 struct Monster;
 
-typedef void (*Monster_Skill)(struct Monster* self);
+typedef const wchar_t* (*Monster_Skill)(struct Monster* self);
 
 typedef struct {
 	wchar_t name[20];
@@ -24,6 +24,13 @@ typedef struct {
 	Monster_Skill skill[3];
 	int skill_count;
 }Monster;
+
+typedef struct {
+	const wchar_t* msg;
+	int damage;     
+	int self_heal;   
+} SkillResult;
+
 
 Monster Slime(int Level);
 Monster Goblin(int Level);
