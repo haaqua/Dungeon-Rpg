@@ -131,6 +131,7 @@
     <ClCompile Include="Item.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Monster.c" />
+    <ClCompile Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="item.h" />

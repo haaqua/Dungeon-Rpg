@@ -24,16 +24,33 @@ typedef enum {
     STAT_LUK
 } ITEMStat;
 
+typedef enum {
+    ITEM_WEAPON,
+    ITEM_ARMOR,
+    ITEM_ACCESSORY,
+    ITEM_NONE
+}ItemType;
+
 #define ITEM_NAME_LEN 32
 
 typedef struct {
     wchar_t name[ITEM_NAME_LEN];
+    ItemType type;
     ItemCategory category;
     EquipSlot slot;
     ITEMStat stat;
     int value;
     int cost;
+
+    int usable;
 } Item;
+
+// 인벤토리
+#define Inventory_Size 20
+typedef struct {
+    Item item[Inventory_Size];
+    int count;
+}Inventory;
 
 /* 아이템 생성 함수들 */
 // 무기

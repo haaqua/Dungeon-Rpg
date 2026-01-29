@@ -5,41 +5,9 @@
 #include<conio.h>
 #include "item.h"
 #include "Monster.h"
-
-// 스탯
-typedef struct {
-	int hp;
-	int level;
-	int str;
-	int dex;
-	int wis;
-	int luk;
-}Player_Stats;
-
-typedef enum {
-	PSTAT_STR,
-	PSTAT_DEX,
-	PSTAT_WIS,
-	PSTAT_LUK
-} PlayerStatType;
-
-// 인벤토리
-#define Inventory_Size 20
-typedef struct {
-	Item item[Inventory_Size];
-	int count;
-
-	Item* Weapon;
-	Item* Armor;
-	Item* Accessory;
-	Item* None;
-}Inventory;
+#include "Player.h"
 
 // 플레이어.
-typedef struct {
-	Player_Stats stat;
-	Inventory inv;
-}Using_Player;
 int GetPlayerStat(Using_Player* p, PlayerStatType stat) {
 	switch (stat) {
 	case PSTAT_STR: return p->stat.str;
@@ -51,6 +19,7 @@ int GetPlayerStat(Using_Player* p, PlayerStatType stat) {
 }
 Using_Player player;
 
+// 버퍼링 관련
 int screenIndex;
 HANDLE screen[4];
 enum Mode{
@@ -301,9 +270,119 @@ void PlayerCreat(Using_Player* p) {
 	p->stat.wis = 10;
 	p->stat.luk = 5;
 }
+// 인벤토리
+#define INV_START_X  2
+#define INV_START_Y  4
+#define INV_VISIBLE  10 
+void DrawInventoryUi() {
+	HANDLE h = screen[Menu];
+	ClearBuffer(h);
+
+	DrawStringW(h, 1, 1, L"[인벤토리]");
+	DrawStringW(h, 1, 2, L"ENTER : 사용,  ESC : 나가기");
+
+	for (int i = 0; i < INV_VISIBLE; i++) {
+		DrawStringW(h, INV_START_X, INV_START_Y+1, L"                    ");
+	}
+}
+int UseItemList(Using_Player* p, int* list) {
+	int count = 0;
+	for (int i = 0; i < p->inv.count; i++) {
+		if (p->inv.item[i].usable) {
+			list[count++] = i;
+		}
+		return count;
+	}
+}
+void DrawInvList(Using_Player* p, int* list, int ListCount, int cursor) {
+	HANDLE h = screen[Menu];
+	for (int i = 0; i < INV_VISIBLE; i++) {
+		ClearLine(h, INV_START_Y + 1);
+
+		int idx = i;
+		if (idx >= ListCount)continue;
+
+		Item* it = &p->inv.item[list[idx]];
+
+		if (idx == cursor)
+			DrawCharToBufferW(h, INV_START_X, INV_START_Y + 1, L">");
+		DrawStringW(h, INV_START_X, INV_START_Y + 1, it->name);
+	}
+}
+void UseItem(Using_Player* p, int inidx) {
+	Item* it = &p->inv.item[inidx];
+
+	switch (it->stat) {
+	case STAT_STR:
+		p->stat.str += it->value;
+		break;
+	case STAT_DEX:
+		p->stat.dex += it->value;
+		break;
+	case STAT_WIS:
+		p->stat.wis += it->value;
+		break;
+	case STAT_LUK:
+		p->stat.luk += it->value;
+		break;
+	}
+	for (int i = inidx; i < p->inv.count - 1; i++) {
+		p->inv.item[i] = p->inv.item[i + 1];
+	}
+	p->inv.count--;
+}
+int InventoryCursor(int* cursor) {
+	if (!_kbhit())return -1;
+
+	char key = _getch();
+	if (key == -32 || key == 0)
+		key = _getch();
+	switch (key) {
+	case 72:
+		if (*cursor > 0)(*cursor)--;
+		break;
+	case 80:
+		if (*cursor < 4)(*cursor)++;
+		break;
+	case 13:
+		return *cursor;
+	case 27:
+		return -2;
+	}
+	return -1;
+}
+void InventoryMenu(Using_Player* p) {
+	ChangeMode(Menu);
+	SetConsoleActiveScreenBuffer(screen[Menu]);
+
+	int list[Inventory_Size];
+	int listCount = UseItemList(p, list);
+	int cursor = 0;
+
+	DrawInventoryUi();
+	DrawInvList(p, list, listCount, cursor);
+
+	while (1) {
+		int prev = cursor;
+		int sel = InventoryCursor;
+
+		if (prev != cursor)
+			DrawInvList(p, list, listCount, cursor);
+		if (sel == -2) break;
+
+		if (sel == 0) {
+			UseItem(p, list[sel]);
+			listCount = UseItemList(p, list);
+			if (cursor >= listCount)cursor = listCount - 1;
+			DrawInvList(p, list, listCount, cursor);
+		}
+		sleep(50);
+	}
+	ChangeMode(Field);
+	SetConsoleActiveScreenBuffer(screen[Field]);
+}
 
 // 전투 함수
-
 int calculate(int atk, int def) {
 	int dmg = atk - def;
 	if (dmg < 1) {
@@ -321,17 +400,7 @@ void BattleUI(Monster* m, Using_Player* p, int cursor) {
 	HANDLE hBattle = screen[Battle];
 	ClearBuffer(hBattle);
 
-	// 몬스터
 	DrawStringW(hBattle, 10, 2, m->name);
-
-	wchar_t hpBuf[50];
-	swprintf(hpBuf, 50, L"HP : %d", m->hp);
-	DrawStringW(hBattle, 7, 5, hpBuf);
-
-	// 플레이어
-	swprintf(hpBuf, 50, L"플레이어 HP : %d", p->stat.hp);
-	DrawStringW(hBattle, 1, 12, hpBuf);
-
 	// 메뉴
 	const wchar_t* menu[5] = {
 		L"공격",
@@ -341,13 +410,29 @@ void BattleUI(Monster* m, Using_Player* p, int cursor) {
 		L"도망"
 	};
 	for (int i = 0; i < 5; i++) {
-		if (i == cursor) {
-			DrawStringW(hBattle, 5 + i * 6, 15, L">");
-		}
 		DrawStringW(hBattle, 6 + i * 6, 15, menu[i]);
 	}
 
 }
+void DrawCursor(int prev, int cur) {
+	HANDLE hBattle = screen[Battle];
+	if (prev >= 0) {
+		DrawStringW(hBattle, 5 + prev * 6, 15, L" ");
+	}
+	DrawStringW(hBattle, 5 + cur * 6, 15, L">");
+}
+void UpdateHP(Monster* m, Using_Player* p) {
+	HANDLE hBattle = screen[Battle];
+
+	wchar_t hpBuf[50];
+	swprintf(hpBuf, 50, L"HP : %d", m->hp);
+	DrawStringW(hBattle, 7, 5, hpBuf);
+
+	ClearLine(hBattle, 12);
+	swprintf(hpBuf, 50, L"플레이어 HP : %d", p->stat.hp);
+	DrawStringW(hBattle, 1, 12, hpBuf);
+}
+
 int BattleInput(int* cursor) {
 	if (!_kbhit())return -1;
 
@@ -373,10 +458,15 @@ void BattleFunction(Using_Player* p, Monster* m) {
 
 	int cursor = 0;
 
+	BattleUI(m, p, cursor);
+	DrawCursor(-1, cursor);
 	while (1) {
-
-		BattleUI(m, p, cursor);
+		UpdateHP(m, p);
+		int prevCursor = cursor;
 		int select = BattleInput(&cursor);
+		if (prevCursor != cursor) {
+			DrawCursor(prevCursor, cursor);
+		}
 		if (select == -1) {
 			Sleep(50);
 			continue;
@@ -424,6 +514,15 @@ void BattleFunction(Using_Player* p, Monster* m) {
 
 		if (m->hp <= 0) {
 			DrawStringW(screen[Battle], 1, 19, L"몬스터를 처치했다.");
+			if (m->type == common) {
+				p->Money += m->lv;
+			}
+			if (m->type == rare) {
+				p->Money += m->lv * 2;
+			}
+			if (m->type == Boss) {
+				p->Money += m->lv * 5;
+			}
 			Sleep(800);
 			break;
 		}
@@ -458,6 +557,7 @@ void BattleFunction(Using_Player* p, Monster* m) {
 			Sleep(1000);
 			break;
 		}
+		UpdateHP(m, p);
 	}
 	ChangeMode(Field);
 	SetConsoleActiveScreenBuffer(screen[Field]);
