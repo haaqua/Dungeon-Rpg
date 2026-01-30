@@ -2,6 +2,7 @@
 #define MONSTER_H
 
 #include<wchar.h>
+#include "Player.h"
 
 typedef enum {
 	common,
@@ -11,7 +12,7 @@ typedef enum {
 
 struct Monster;
 
-typedef const wchar_t* (*Monster_Skill)(struct Monster* self);
+typedef const wchar_t* (*Monster_Skill)(struct Monster* self, Using_Player* p);
 
 typedef struct {
 	wchar_t name[20];

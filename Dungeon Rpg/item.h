@@ -3,6 +3,13 @@
 
 #include <wchar.h>
 
+void ApplyItemStat(Player_Stats* stat, Item* item, int sign);
+void EquipWeapon(Using_Player* p, int invIdx);
+void EquipArmor(Using_Player* p, int invIdx);
+void EquipAcce(Using_Player* p, int invIdx);
+int GetAttckStat(Using_Player* p);
+int GetDefense(Using_Player* p);
+
 typedef enum {
     ITEM_EQUIP,
     ITEM_CONSUME,
@@ -13,7 +20,6 @@ typedef enum {
     SLOT_WEAPON,
     SLOT_ARMOR,
     SLOT_ACCESSORY,
-    SLOT_NONE
 } EquipSlot;
 
 typedef enum {
@@ -50,6 +56,10 @@ typedef struct {
 typedef struct {
     Item item[Inventory_Size];
     int count;
+
+    int WeaponIdx;
+    int ArmorIdx;
+    int AcceIdx;
 }Inventory;
 
 /* 아이템 생성 함수들 */

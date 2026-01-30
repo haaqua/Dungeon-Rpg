@@ -11,6 +11,8 @@ typedef struct {
     int dex;
     int wis;
     int luk;
+
+    int def;
 } Player_Stats;
 
 typedef enum {

@@ -131,7 +131,7 @@ const wchar_t* ImpSkill(Monster* self, Using_Player* p) {
 const wchar_t* OrcSmash(Monster* self,Using_Player* p) {
 	int damage = self->atk + self->lv * 2;
 	p->stat.hp -= damage;
-	return L"오크의 강타!"; // 공격력 + 레밸*2
+	return L"오크가 강타!"; // 공격력 + 레밸*2
 }
 
 const wchar_t* OrcRush(Monster* self, Using_Player* p) {

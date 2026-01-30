@@ -19,6 +19,24 @@ int GetPlayerStat(Using_Player* p, PlayerStatType stat) {
 }
 Using_Player player;
 
+typedef Item(*ItemFactory)(void);
+
+// 랜덤 아이템 풀
+ItemFactory ItemTable[] = {
+	Sword,
+	Dagger,
+	Wand,
+	Armor,
+	Ring_Str,
+	Ring_Dex,
+	HpPotion,
+	StrPotion,
+	DexPotion,
+	LukPotion
+};
+
+#define ITEM_TABLE_SIZE (sizeof(ItemTable) / sizeof(ItemTable[0]))
+
 // 버퍼링 관련
 int screenIndex;
 HANDLE screen[4];
@@ -206,6 +224,10 @@ void MapFunction() {
 void BattleFunction(Using_Player* p, Monster* m);
 // 플레이어 이동 함수
 Monster MonsterEncounter(Using_Player* p, int isBoss);
+void InventoryMenu(Using_Player* p);
+int AddItem(Using_Player* p, Item item);
+Item GetRandItem();
+
 void PlayerMove(int nx, int ny);
 void MoveInput() {
 	if (NowMode != Field)
@@ -224,6 +246,14 @@ void MoveInput() {
 	case 75: nx--;	break;
 	case 77: nx++;	break;
 	case 80: ny++;	break;
+
+	case 'E':
+	case'e':
+		InventoryMenu(&player);
+		ChangeMode(Field);
+		SetConsoleActiveScreenBuffer(screen[Field]);
+		RenderMap();
+		break;
 	default: return;
 	}
 	PlayerMove(nx, ny);
@@ -239,6 +269,8 @@ void PlayerMove(int nx, int ny) {
 	DrawCharToBufferW(hfield, plX, plY, map[plY][plX]);
 
 	if (map[ny][nx] == Chest) {
+		Item it = GetRandItem();
+		AddItem(&player, it);
 		map[ny][nx] = Empty;
 	}
 	if (map[ny][nx] == Exit) {
@@ -261,6 +293,21 @@ void PlayerMove(int nx, int ny) {
 		BattleFunction(&player, &m);
 	}
 }
+// 상자까는 함수
+int AddItem(Using_Player* p, Item item) {
+	if (p->inv.count >= Inventory_Size) {
+		DrawStringW(screen[Field], 18, 3,L"가방이 가득하다");
+		Sleep(100);
+		DrawStringW(screen[Field], 18, 3, L"        ");
+		return 0;
+	}
+	p->inv.item[p->inv.count++] = item;
+	return 1;
+}
+Item GetRandItem() {
+	int idx = rand() % ITEM_TABLE_SIZE;
+	return ItemTable[idx]();
+}
 
 // 플레이어 생성 함수
 void PlayerCreat(Using_Player* p) {
@@ -269,17 +316,27 @@ void PlayerCreat(Using_Player* p) {
 	p->stat.dex = 10;
 	p->stat.wis = 10;
 	p->stat.luk = 5;
+
+	p->inv.count = 0;
+
+	p->inv.WeaponIdx = -1;
+	p->inv.ArmorIdx = -1;
+	p->inv.AcceIdx = -1;
 }
 // 인벤토리
 #define INV_START_X  2
 #define INV_START_Y  4
 #define INV_VISIBLE  10 
-void DrawInventoryUi() {
+void DrawInventoryUi(Using_Player* p) {
 	HANDLE h = screen[Menu];
 	ClearBuffer(h);
 
 	DrawStringW(h, 1, 1, L"[인벤토리]");
 	DrawStringW(h, 1, 2, L"ENTER : 사용,  ESC : 나가기");
+	DrawStringW(h, 1, 3, L"돈 : ");
+	wchar_t moneyBuf[32];
+	swprintf(moneyBuf, 32, L"%d", p->Money);
+	DrawStringW(h, 6, 3, moneyBuf);
 
 	for (int i = 0; i < INV_VISIBLE; i++) {
 		DrawStringW(h, INV_START_X, INV_START_Y+1, L"                    ");
@@ -288,9 +345,8 @@ void DrawInventoryUi() {
 int UseItemList(Using_Player* p, int* list) {
 	int count = 0;
 	for (int i = 0; i < p->inv.count; i++) {
-		if (p->inv.item[i].usable) {
-			list[count++] = i;
-		}
+		list[count++] = i;
+		
 		return count;
 	}
 }
@@ -359,27 +415,81 @@ void InventoryMenu(Using_Player* p) {
 	int listCount = UseItemList(p, list);
 	int cursor = 0;
 
-	DrawInventoryUi();
+	DrawInventoryUi(p);
 	DrawInvList(p, list, listCount, cursor);
 
 	while (1) {
 		int prev = cursor;
-		int sel = InventoryCursor;
+		int sel = InventoryCursor(&cursor);
 
 		if (prev != cursor)
 			DrawInvList(p, list, listCount, cursor);
 		if (sel == -2) break;
 
-		if (sel == 0) {
-			UseItem(p, list[sel]);
+		if (sel >= 0) {
+			Item* it = &p->inv.item[list[sel]];
+			if (it->category == ITEM_CONSUME) {
+				UseItem(p, list[sel]);
+			}
+			else if (it->category == ITEM_EQUIP) {
+				switch (it->slot) {
+				case SLOT_WEAPON:
+					EquipWeapon(p, list[sel]);
+				}
+			}
 			listCount = UseItemList(p, list);
 			if (cursor >= listCount)cursor = listCount - 1;
 			DrawInvList(p, list, listCount, cursor);
 		}
-		sleep(50);
+		Sleep(50);
 	}
-	ChangeMode(Field);
-	SetConsoleActiveScreenBuffer(screen[Field]);
+	return;
+}
+void ShowStatus(Using_Player* p, Monster* m) {
+	int xL = 1;
+	int xR = 25;
+	int y = 5;
+
+	DrawStringW(screen[Battle], xL, y, L"몬스터 스탯");
+	DrawStringW(screen[Battle], xR, y, L"플레이어 스탯");
+
+	DrawStringW(screen[Battle], xL, y + 1, L"----------------------|------------------------");
+
+	// 몬스터
+	DrawStringW(screen[Battle], xL, y + 2, L"이름   : ");
+	DrawStringW(screen[Battle], xL + 9, y + 2, m->name);
+
+	wchar_t buf[64];
+
+	swprintf(buf, 64, L"HP     : %d", m->hp);
+	DrawStringW(screen[Battle], xL, y + 3, buf);
+
+	swprintf(buf, 64, L"ATK    : %d", m->atk);
+	DrawStringW(screen[Battle], xL, y + 4, buf);
+
+	swprintf(buf, 64, L"DEF    : %d", m->def);
+	DrawStringW(screen[Battle], xL, y + 5, buf);
+
+	swprintf(buf, 64, L"LV     : %d", m->lv);
+	DrawStringW(screen[Battle], xL, y + 6, buf);
+
+	// 플레이어
+	DrawStringW(screen[Battle], xR, y + 2, L"이름   : 플레이어");
+
+	swprintf(buf, 64, L"HP     : %d", p->stat.hp);
+	DrawStringW(screen[Battle], xR, y + 3, buf);
+
+	swprintf(buf, 64, L"STR    : %d", p->stat.str);
+	DrawStringW(screen[Battle], xR, y + 4, buf);
+
+	swprintf(buf, 64, L"DEX    : %d", p->stat.dex);
+	DrawStringW(screen[Battle], xR, y + 5, buf);
+
+	swprintf(buf, 64, L"WIS    : %d", p->stat.wis);
+	DrawStringW(screen[Battle], xR, y + 6, buf);
+
+	swprintf(buf, 64, L"LUK    : %d", p->stat.luk);
+	DrawStringW(screen[Battle], xR, y + 7, buf);
 }
 
 // 전투 함수
@@ -461,6 +571,7 @@ void BattleFunction(Using_Player* p, Monster* m) {
 	BattleUI(m, p, cursor);
 	DrawCursor(-1, cursor);
 	while (1) {
+		int AtkStat = GetAttckStat(p);
 		UpdateHP(m, p);
 		int prevCursor = cursor;
 		int select = BattleInput(&cursor);
@@ -478,10 +589,11 @@ void BattleFunction(Using_Player* p, Monster* m) {
 		ClearLine(screen[Battle], 19);
 		if (select == 0) {
 			DrawStringW(screen[Battle], 1, 17, L"공격");
-			if (RollPercent(m->lv * 10, 50, p, PSTAT_STR)) {
+			if (RollPercent(m->lv * 10, 50, p, AtkStat)) {
 				DrawStringW(screen[Battle], 1, 18, L"당신의 공격이 성공했습니다.");
-				int dmg = calculate(p->stat.str, m->def);
+				int dmg = calculate(AtkStat, m->def);	
 				m->hp -= dmg;
+				UpdateHP(m, p);
 			}
 			else {
 				DrawStringW(screen[Battle], 1, 18, L"당신의 공격이 빗나갔습니다.");
@@ -489,7 +601,10 @@ void BattleFunction(Using_Player* p, Monster* m) {
 		}
 		// 아이템
 		else if (select == 1) {
-
+			InventoryMenu(p);
+			SetConsoleActiveScreenBuffer(screen[Battle]);
+			BattleUI(m, p, cursor);
+			DrawCursor(-1, cursor);
 		}
 		// 스킬
 		else if (select == 2) {
@@ -497,7 +612,25 @@ void BattleFunction(Using_Player* p, Monster* m) {
 		}
 		// 상태
 		else if (select == 3) {
+			ClearLine(screen[Battle], 5);
+			ClearLine(screen[Battle], 6);
+			ClearLine(screen[Battle], 7);
+			ClearLine(screen[Battle], 8);
+			ClearLine(screen[Battle], 9);
+			ClearLine(screen[Battle], 10);
+			ClearLine(screen[Battle], 11);
+			ClearLine(screen[Battle], 12);
 
+			ShowStatus(p, m);
+
+			while (_kbhit() == 0) {
+				Sleep(50);
+			}
+			_getch();
+			for (int i = 5; i <= 12; i++)
+				ClearLine(screen[Battle], i);
+			BattleUI(m, p, cursor);
+			DrawCursor(-1, cursor);
 		}
 		// 도망
 		else if (select == 4) {
@@ -530,6 +663,7 @@ void BattleFunction(Using_Player* p, Monster* m) {
 		/*몬스터의 턴*/
 		ClearLine(screen[Battle], 17);
 		ClearLine(screen[Battle], 18);
+		int Player_Defence = GetDefense(p);
 
 			int AorS = rand() % 2;
 			if (AorS == 0) {
@@ -540,13 +674,18 @@ void BattleFunction(Using_Player* p, Monster* m) {
 				}
 				else {
 					DrawStringW(screen[Battle], 1, 18, L"공격이 명중했다!");
-					p->stat.hp -= m->atk;
+					int dmg = m->atk - Player_Defence;
+					if (dmg < 0) {
+						DrawStringW(screen[Battle], 1, 19, L"몬스터의 공격은 당신의 방어구를 뚫지 못했다!");
+					}
+					p->stat.hp -= dmg;
+					UpdateHP(m, p);
 				}
 			}
 			else {
 				int idx = rand() % m->skill_count;
-				const wchar_t* msg = m->skill[idx](m);
-				m->skill[idx](m);
+				const wchar_t* msg = m->skill[idx](m,p);
+				m->skill[idx](m,p);
 				DrawStringW(screen[Battle], 1, 18, L"몬스터가 스킬을 사용했다!");
 				DrawStringW(screen[Battle], 1, 18, msg);
 			}

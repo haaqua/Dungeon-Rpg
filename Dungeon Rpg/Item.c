@@ -1,8 +1,74 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include"item.h"
 #include<wchar.h>
+#include"Player.h"
+void ApplyItemStat(Player_Stats* stat, Item* item, int sign) {
+	switch (item->stat) {
+	case STAT_STR:
+		stat->str += item->value * sign;
+		break;
+	case STAT_DEX:
+		stat->dex += item->value * sign;
+		break;
+	case STAT_WIS:
+		stat->wis += item->value * sign;
+		break;
+	case STAT_LUK:
+		stat->luk += item->value * sign;
+		break;
+	case STAT_HP:
+		stat->hp += item->value * sign;
+		break;
+	}
+}
+void EquipWeapon(Using_Player* p, int invIdx) {
+	if (p->inv.WeaponIdx == 1) {
+		ApplyItemStat(&p->stat, &p->inv.item[p->inv.WeaponIdx], -1);
+	}
+	p->inv.WeaponIdx = invIdx;
+	ApplyItemStat(&p->stat, &p->inv.item[invIdx], +1);
+}
+void EquipArmor(Using_Player* p, int invIdx) {
+	if (p->inv.ArmorIdx == 1) {
+		ApplyItemStat(&p->stat, &p->inv.item[p->inv.ArmorIdx], -1);
+	}
+	p->inv.ArmorIdx = invIdx;
+	ApplyItemStat(&p->stat, &p->inv.item[invIdx], +1);
+}
+void EquipAcce(Using_Player* p, int invIdx) {
+	if (p->inv.AcceIdx == 1) {
+		ApplyItemStat(&p->stat, &p->inv.item[p->inv.AcceIdx], -1);
+	}
+	p->inv.AcceIdx = invIdx;
+	ApplyItemStat(&p->stat, &p->inv.item[invIdx], +1);
+}
 
+int GetAttckStat(Using_Player* p) {
+	if (p->inv.WeaponIdx == -1)
+		return p->stat.str;
+	Item* w = &p->inv.item[p->inv.WeaponIdx];
+	switch (w->stat) {
+	case STAT_STR: return p->stat.str;
+	case STAT_DEX: return p->stat.dex;
+	case STAT_WIS: return p->stat.wis;
+	}
+	return p->stat.str;
+}
+int GetDefense(Using_Player* p) {
+	int def = 0;
 
+	if (p->inv.ArmorIdx == -1)
+		return def;
+
+	Item* a = &p->inv.item[p->inv.ArmorIdx];
+
+	switch (a->stat) {
+	case STAT_STR: def = p->stat.str / 2; break;
+	case STAT_DEX: def = p->stat.dex / 2; break;
+	case STAT_WIS: def = p->stat.wis / 2; break;
+	}
+	return def;
+}
 
 
 // ¹«±â
