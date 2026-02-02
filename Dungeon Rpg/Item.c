@@ -2,6 +2,8 @@
 #include"item.h"
 #include<wchar.h>
 #include"Player.h"
+#include "Type.h"
+
 void ApplyItemStat(Player_Stats* stat, Item* item, int sign) {
 	switch (item->stat) {
 	case STAT_STR:
@@ -22,21 +24,21 @@ void ApplyItemStat(Player_Stats* stat, Item* item, int sign) {
 	}
 }
 void EquipWeapon(Using_Player* p, int invIdx) {
-	if (p->inv.WeaponIdx == 1) {
+	if (p->inv.WeaponIdx != -1) {
 		ApplyItemStat(&p->stat, &p->inv.item[p->inv.WeaponIdx], -1);
 	}
 	p->inv.WeaponIdx = invIdx;
 	ApplyItemStat(&p->stat, &p->inv.item[invIdx], +1);
 }
 void EquipArmor(Using_Player* p, int invIdx) {
-	if (p->inv.ArmorIdx == 1) {
+	if (p->inv.ArmorIdx != -1) {
 		ApplyItemStat(&p->stat, &p->inv.item[p->inv.ArmorIdx], -1);
 	}
 	p->inv.ArmorIdx = invIdx;
 	ApplyItemStat(&p->stat, &p->inv.item[invIdx], +1);
 }
 void EquipAcce(Using_Player* p, int invIdx) {
-	if (p->inv.AcceIdx == 1) {
+	if (p->inv.AcceIdx != -1) {
 		ApplyItemStat(&p->stat, &p->inv.item[p->inv.AcceIdx], -1);
 	}
 	p->inv.AcceIdx = invIdx;
@@ -98,7 +100,7 @@ Item Axe() {
 }
 Item Saint_Saver() {
 	Item item;
-	wcscpy(item.name, L"성검");
+	wcscpy(item.name, L"약속된 승리의 검");
 	item.type = ITEM_WEAPON;
 	item.category = ITEM_EQUIP;
 	item.slot = SLOT_WEAPON;
@@ -266,59 +268,50 @@ Item HpPotion(void) {
 	wcscpy(item.name, L"체력 포션");
 	item.type = ITEM_NONE;
 	item.category = ITEM_CONSUME;
-	item.slot = SLOT_NONE;
 	item.stat = STAT_HP;
-	item.value = 5;
+	item.value = 10;
 	item.cost = 5;
 	item.usable = 1;
 	return item;
 }
-
 Item StrPotion() {
 	Item item;
 	wcscpy(item.name, L"힘의 비약");
 	item.type = ITEM_NONE;
 	item.category = ITEM_CONSUME;
-	item.slot = SLOT_NONE;
 	item.stat = STAT_STR;
-	item.value = 1;
+	item.value = 5;
 	item.cost = 20;
 	item.usable = 1;
 	return item;
 }
-
 Item DexPotion() {
 	Item item;
 	wcscpy(item.name, L"암살자의 성장약");
 	item.type = ITEM_NONE;
 	item.category = ITEM_CONSUME;
-	item.slot = SLOT_NONE;
 	item.stat = STAT_DEX;
-	item.value = 1;
+	item.value = 5;
 	item.cost = 20;
 	item.usable = 1;
 	return item;
 }
-
 Item WisPotion() {
 	Item item;
 	wcscpy(item.name, L"지식의 샘물");
 	item.type = ITEM_NONE;
 	item.category = ITEM_CONSUME;
-	item.slot = SLOT_NONE;
 	item.stat = STAT_WIS;
-	item.value = 1;
+	item.value = 5;
 	item.cost = 20;
 	item.usable = 1;
 	return item;
 }
-
 Item LukPotion() {
 	Item item;
 	wcscpy(item.name, L"운이 좋은 포션");
 	item.type = ITEM_NONE;
 	item.category = ITEM_CONSUME;
-	item.slot = SLOT_NONE;
 	item.stat = STAT_LUK;
 	item.value = 1;
 	item.cost = 30;

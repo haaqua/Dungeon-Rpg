@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Item.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Item.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\item.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:item.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Item.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Item.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Type.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Type.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Skill.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Skill.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Monster.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -25,6 +33,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Monster.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Monster.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Market.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Market.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Skill.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Skill.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Market.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D7531900-EEED-446F-AF5A-58BBDD5C4C78}|Dungeon Rpg.vcxproj|solutionrelative:Market.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,17 +54,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "main.c",
               "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\main.c",
               "RelativeDocumentMoniker": "main.c",
               "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\main.c",
               "RelativeToolTip": "main.c",
-              "ViewState": "AgIAAKoBAAAAAAAAAAAAALYBAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAACwDAAAAAAAAAAAswP8AAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2026-01-22T11:03:39.345Z",
               "IsPinned": true,
@@ -52,26 +72,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "Type.h",
+              "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Type.h",
+              "RelativeDocumentMoniker": "Type.h",
+              "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Type.h",
+              "RelativeToolTip": "Type.h",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAswCYAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-01-31T05:11:14.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Skill.h",
+              "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Skill.h",
+              "RelativeDocumentMoniker": "Skill.h",
+              "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Skill.h",
+              "RelativeToolTip": "Skill.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-01-31T11:01:56.21Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Skill.c",
+              "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Skill.c",
+              "RelativeDocumentMoniker": "Skill.c",
+              "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Skill.c",
+              "RelativeToolTip": "Skill.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-02-01T02:54:04.603Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Player.h",
               "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Player.h",
               "RelativeDocumentMoniker": "Player.h",
               "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Player.h",
               "RelativeToolTip": "Player.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-01-29T09:56:18.448Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Item.c",
               "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Item.c",
               "RelativeDocumentMoniker": "Item.c",
               "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Item.c",
               "RelativeToolTip": "Item.c",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAswFcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2026-01-23T12:24:54.754Z",
               "EditorCaption": ""
@@ -84,35 +143,61 @@
               "RelativeDocumentMoniker": "item.h",
               "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\item.h",
               "RelativeToolTip": "item.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-01-23T12:26:39.644Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Monster.c",
               "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Monster.c",
               "RelativeDocumentMoniker": "Monster.c",
               "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Monster.c",
               "RelativeToolTip": "Monster.c",
-              "ViewState": "AgIAAG0AAAAAAAAAAAAAAIIAAAA2AAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAGQAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2026-01-25T11:36:00.84Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Monster.h",
               "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Monster.h",
               "RelativeDocumentMoniker": "Monster.h",
               "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Monster.h",
               "RelativeToolTip": "Monster.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-01-25T11:29:51.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Market.c",
+              "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Market.c",
+              "RelativeDocumentMoniker": "Market.c",
+              "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Market.c",
+              "RelativeToolTip": "Market.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-02-01T05:42:04.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Market.h",
+              "DocumentMoniker": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Market.h",
+              "RelativeDocumentMoniker": "Market.h",
+              "ToolTip": "C:\\Users\\milkh\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\Dungeon-Rpg\\Dungeon Rpg\\Market.h",
+              "RelativeToolTip": "Market.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-02-01T05:39:22.243Z",
               "EditorCaption": ""
             }
           ]

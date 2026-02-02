@@ -123,43 +123,44 @@ const wchar_t* GoblinSkill(Monster* self) {
 }
 
 const wchar_t* ImpSkill(Monster* self, Using_Player* p) {
-	int damage = self->atk * 2;
+	int damage = self->atk + self->lv;
 	p->stat.hp -= damage;
 	return L"임프의 기습 공격!"; // 공격력 * 2
 }
 
 const wchar_t* OrcSmash(Monster* self,Using_Player* p) {
-	int damage = self->atk + self->lv * 2;
+	int damage = self->atk * 2 - p->stat.def;
 	p->stat.hp -= damage;
-	return L"오크가 강타!"; // 공격력 + 레밸*2
+	return L"오크의 강타!"; // 공격력 + 레밸*2
 }
 
 const wchar_t* OrcRush(Monster* self, Using_Player* p) {
-	int damage = self->def;
+	int damage = self->def - p->stat.def;
 	p->stat.hp -= damage;
 	return L"오크가 방패를 들고 돌진했다!"; // 방어력 만큼의 데미지
 }
 
 const wchar_t* VampireBlooddrain(Monster* self, Using_Player* p) {
-	p->stat.hp -= self->atk;
-	self->hp += self->atk;
+	int dmg = self->atk - p->stat.def;
+	p->stat.hp -= dmg;
+	self->hp += dmg;
 	return L"뱀파이어가 흡혈하여 체력을 회복했다!"; // 상대에게 데미지, 준 데미지만큼 회복
 }
 
 const wchar_t* VampireBloodAttack(Monster* self,Using_Player* p) {
-	self->hp -= self->atk * 2;
+	self->hp -= self->atk - p->stat.def;
 	p->stat.hp -= self->atk * 2;
 	return L"뱀파이어가 자신의 피로 공격했다!";// hp 줄이고 줄인 만큼 상대에게 데미지를 줌
 }
 
 const wchar_t* DragonBreath(Monster* self,Using_Player* p) {
-	int damage = self->atk * self->lv * 2;
+	int damage = self->atk * self->lv - p->stat.def;
 	p->stat.hp -= damage;
-	return L"드래곤이 강력한 브레스를 뿜었다!"; // 데미지 * Lv * 2
+	return L"드래곤이 강력한 브레스를 뿜었다!"; 
 }
 
 const wchar_t* DragonArmor(Monster* self) {
-	self->def* self->lv * 2;
+	self->def* self->lv;
 	return L"드래곤이 비늘로 몸을 감싸 방어력을 높였다!"; // 방어력 * Lv * 2
 }
 

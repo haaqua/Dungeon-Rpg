@@ -27,12 +27,27 @@
     <ClCompile Include="Player.h">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Skill.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Market.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="item.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Market.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
