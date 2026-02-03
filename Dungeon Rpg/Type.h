@@ -7,6 +7,7 @@
 typedef struct {
     int hp;
     int level;
+    int exp;
     int str;
     int dex;
     int wis;

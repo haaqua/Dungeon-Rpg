@@ -30,13 +30,13 @@ void Skill_Effect(Using_Player* p,Monster* m, SkillType id) {
 
     switch (id) {
     case SKILL_STR_DAMAGE:
-        m->hp = (p->stat.str * s->value) - m->def; break;
+        m->hp -= (p->stat.str * s->value) - m->def; break;
     case SKILL_DEX_DAMAGE:
-        m->hp = (p->stat.dex * s->value) - m->def; break;
+        m->hp -= (p->stat.dex * s->value) - m->def; break;
     case SKILL_WIS_DAMAGE:
-        m->hp = (p->stat.wis * s->value) - m->def; break;
+        m->hp -= (p->stat.wis * s->value) - m->def; break;
     case SKILL_THROUGH_DAMAGE:
-        m->hp = p->stat.str; break;
+        m->hp -= p->stat.str; break;
 
     case SKILL_HEAL_DEX:
         p->stat.hp += p->stat.dex; break;

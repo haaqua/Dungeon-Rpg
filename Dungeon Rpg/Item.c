@@ -23,7 +23,23 @@ void ApplyItemStat(Player_Stats* stat, Item* item, int sign) {
 		break;
 	}
 }
+void ApplyArmorDefense(Using_Player* p, Item* armor, int sign) {
+	int value = 0;
+
+	switch (armor->stat) {
+	case STAT_STR: value = p->stat.str / 2; break;
+	case STAT_DEX: value = p->stat.dex / 2; break;
+	case STAT_WIS: value = p->stat.wis / 2; break;
+	default: return;
+	}
+
+	p->stat.def += value * sign;
+}
 void EquipWeapon(Using_Player* p, int invIdx) {
+	Item* it = &p->inv.item[invIdx];
+	if (it->category != ITEM_EQUIP || it->slot != ITEM_WEAPON)
+		return;
+
 	if (p->inv.WeaponIdx != -1) {
 		ApplyItemStat(&p->stat, &p->inv.item[p->inv.WeaponIdx], -1);
 	}
@@ -31,13 +47,21 @@ void EquipWeapon(Using_Player* p, int invIdx) {
 	ApplyItemStat(&p->stat, &p->inv.item[invIdx], +1);
 }
 void EquipArmor(Using_Player* p, int invIdx) {
+	Item* it = &p->inv.item[invIdx];
+	if (it->category != ITEM_EQUIP || it->slot != ITEM_ARMOR)
+		return;
+
 	if (p->inv.ArmorIdx != -1) {
 		ApplyItemStat(&p->stat, &p->inv.item[p->inv.ArmorIdx], -1);
 	}
 	p->inv.ArmorIdx = invIdx;
-	ApplyItemStat(&p->stat, &p->inv.item[invIdx], +1);
+	ApplyArmorDefense(p, it, +1);
 }
 void EquipAcce(Using_Player* p, int invIdx) {
+	Item* it = &p->inv.item[invIdx];
+	if (it->category != ITEM_EQUIP || it->slot != ITEM_ACCESSORY)
+		return;
+
 	if (p->inv.AcceIdx != -1) {
 		ApplyItemStat(&p->stat, &p->inv.item[p->inv.AcceIdx], -1);
 	}
@@ -57,21 +81,8 @@ int GetAttckStat(Using_Player* p) {
 	return p->stat.str;
 }
 int GetDefense(Using_Player* p) {
-	int def = 0;
-
-	if (p->inv.ArmorIdx == -1)
-		return def;
-
-	Item* a = &p->inv.item[p->inv.ArmorIdx];
-
-	switch (a->stat) {
-	case STAT_STR: def = p->stat.str / 2; break;
-	case STAT_DEX: def = p->stat.dex / 2; break;
-	case STAT_WIS: def = p->stat.wis / 2; break;
-	}
-	return def;
+	return p->stat.def;
 }
-
 
 // ¹«±â
 Item Sword(void) {

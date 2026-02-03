@@ -421,6 +421,7 @@ void PlayerCreat(Using_Player* p) {
 		p->skills[i].SkillId = SKILL_NONE;
 	}
 }
+
 // 인벤토리
 #define INV_START_X  2
 #define INV_START_Y  4
@@ -446,7 +447,7 @@ int UseItemList(Using_Player* p, int* list) {
 		list[count++] = i;
 	}
 	return count;
-}
+}   
 void DrawInvList(Using_Player* p, int* list, int ListCount, int cursor) {
 	HANDLE h = screen[Menu];
 	for (int i = 0; i < INV_VISIBLE; i++) {
@@ -513,6 +514,7 @@ void UseItem(Using_Player* p, int inidx) {
 	switch (it->stat) {
 	case STAT_HP:
 		p->stat.hp += it->value;
+		break;
 	case STAT_STR:
 		p->stat.str += it->value;
 		break;
@@ -586,7 +588,7 @@ void InventoryMenu(Using_Player* p) {
 				switch (it->slot) {
 				case SLOT_WEAPON:
 					EquipWeapon(p, list[sel]);
-
+					break;
 				case SLOT_ARMOR:
 					EquipArmor(p, list[sel]);
 					break;

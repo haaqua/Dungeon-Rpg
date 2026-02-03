@@ -1,0 +1,24 @@
+﻿  Monster.c
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(32,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(46,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(60,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(74,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(75,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(89,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(90,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(104,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(105,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(106,13): warning C4113: 'const wchar_t *(__cdecl *)(Monster *)'은(는) 'Monster_Skill'과(와) 매개 변수 목록이 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(125,16): warning C4029: 선언된 정식 매개 변수 목록이 정의와 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(132,16): warning C4029: 선언된 정식 매개 변수 목록이 정의와 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(139,16): warning C4029: 선언된 정식 매개 변수 목록이 정의와 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(146,16): warning C4029: 선언된 정식 매개 변수 목록이 정의와 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(154,16): warning C4029: 선언된 정식 매개 변수 목록이 정의와 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(163,16): warning C4029: 선언된 정식 매개 변수 목록이 정의와 다릅니다.
+C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\Monster.c(171,11): warning C4552: '*': 식의 결과가 사용되지 않습니다.
+  코드를 생성하고 있습니다.
+  12 of 96 functions (12.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  코드를 생성했습니다.
+  Dungeon Rpg.vcxproj -> C:\Users\milkh\OneDrive\바탕 화면\Dungeon-Rpg\Dungeon Rpg\x64\Release\Dungeon Rpg.exe
